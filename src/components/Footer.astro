@@ -1,0 +1,158 @@
+---
+import Wordmark from './Wordmark.astro';
+import { business, nav, messageUs } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="frame footer__grid">
+    <div class="footer__invite">
+      <h2 class="t-title" data-reveal>Put your business <span class="accent">on screen.</span></h2>
+      <a href={messageUs.href} class="button" data-reveal style="--i:1">
+        {messageUs.label}
+        <svg class="button__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="footer__brand">
+      <Wordmark size="footer" />
+      <p class="t-small">Media and marketing studio in {business.city}, {business.province}.</p>
+    </div>
+
+    <nav class="footer__col" aria-label="Footer">
+      <ul role="list">
+        {
+          nav.map((item) => (
+            <li>
+              <a class="link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <ul role="list">
+        <li>
+          <a class="link" href={business.instagramUrl} rel="noopener">Instagram {business.instagramHandle}</a>
+        </li>
+        {
+          business.email && (
+            <li>
+              <a class="link" href={`mailto:${business.email}`}>
+                {business.email}
+              </a>
+            </li>
+          )
+        }
+        <li>{business.city}, {business.province}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="frame footer__legal t-small">
+    <p>© {year} {business.name}</p>
+    <a class="link" href="/privacy/">Privacy policy</a>
+  </div>
+
+  <p class="footer__giant" aria-hidden="true">Atlantic &amp; Co.</p>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    overflow: hidden;
+    padding-top: var(--section-gap);
+    background: var(--ground);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: var(--space-8) var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  .footer__invite {
+    display: grid;
+    gap: var(--space-6);
+    justify-items: start;
+  }
+
+  .footer__invite h2 {
+    max-width: 16ch;
+  }
+
+  .footer__brand {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+    align-content: start;
+  }
+
+  .footer__col ul {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .footer__col li {
+    color: var(--text);
+  }
+
+  .footer__col .link {
+    display: inline-block;
+    padding-block: 0.25rem;
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-6);
+    margin-top: var(--space-9);
+    padding-block: var(--space-5);
+    box-shadow: 0 -1px 0 var(--hairline); /* taste-skill-ignore: Midnight Gold brief pins gold hairlines, ocean glows and the trail glow */
+  }
+
+  /* The name returns at full width, cropped by the bottom of the page */
+  .footer__giant {
+    max-width: none;
+    margin-top: var(--space-4);
+    padding-inline: var(--gutter);
+    font-family: var(--font-display);
+    font-size: 14.2vw;
+    line-height: 0.8;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--gold);
+    opacity: 0.9;
+    transform: translateY(22%);
+    margin-bottom: -0.1em;
+    user-select: none;
+  }
+
+  @media (min-width: 48em) {
+    .footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer__invite {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .footer__grid {
+      grid-template-columns: 6fr 2fr 2fr 2fr;
+      align-items: start;
+    }
+
+    .footer__invite {
+      grid-column: auto;
+    }
+  }
+</style>

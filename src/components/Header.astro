@@ -1,0 +1,287 @@
+---
+import Wordmark from './Wordmark.astro';
+import { business, nav, messageUs } from '../data/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="header" data-header>
+  <div class="frame header__bar">
+    <a href="/" class="header__home" aria-label={`${business.name}, home`}>
+      <Wordmark />
+    </a>
+
+    <nav class="header__nav" aria-label="Main">
+      <ul role="list">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} class="header__link" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <a href={messageUs.href} class="button button--small">{messageUs.label}</a>
+      <button type="button" class="header__menu-button" aria-haspopup="dialog" aria-controls="site-menu" aria-expanded="false" data-menu-open>
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+          <path d="M3 8h18M3 16h18" />
+        </svg>
+        <span class="visually-hidden">Open menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog id="site-menu" class="menu" aria-label="Menu" data-menu>
+  <div class="menu__inner frame">
+    <div class="menu__top">
+      <Wordmark />
+      <button type="button" class="header__menu-button" data-menu-close>
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+          <path d="M5 5l14 14M19 5L5 19" />
+        </svg>
+        <span class="visually-hidden">Close menu</span>
+      </button>
+    </div>
+
+    <nav aria-label="Main">
+      <ul role="list" class="menu__list">
+        {
+          nav.map((item, i) => (
+            <li style={`--i:${i}`}>
+              <a href={item.href} class="menu__link" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="menu__foot">
+      <a href={messageUs.href} class="button">{messageUs.label}</a>
+      <p class="t-small">
+        <a class="link" href={business.instagramUrl} rel="noopener">Instagram {business.instagramHandle}</a>
+        <br />{business.city}, {business.province}
+      </p>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: transparent;
+    transition:
+      background-color var(--t-ui) ease,
+      box-shadow var(--t-ui) ease;
+  }
+
+  .header[data-scrolled] {
+    background: var(--ground);
+    box-shadow: 0 1px 0 var(--hairline-soft); /* taste-skill-ignore: Midnight Gold brief pins gold hairlines, ocean glows and the trail glow */
+  }
+
+  .header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    height: var(--header-height);
+  }
+
+  .header__home {
+    text-decoration: none;
+    flex: none;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__nav ul {
+    display: flex;
+    gap: clamp(1rem, 2vw, 2rem);
+  }
+
+  .header__link {
+    position: relative;
+    display: inline-block;
+    padding-block: var(--space-2);
+    color: var(--text);
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color var(--t-hover) ease;
+  }
+
+  .header__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.25rem;
+    height: 1px; /* taste-skill-ignore: Midnight Gold brief pins gold hairlines, ocean glows and the trail glow */
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t-ui) var(--ease-out);
+  }
+
+  .header__link[aria-current='page'] {
+    color: var(--ink);
+  }
+
+  .header__link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .header__link:hover {
+      color: var(--ink);
+    }
+
+    .header__link:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .header__menu-button {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius);
+    color: var(--ink);
+    transition: transform var(--t-press) var(--ease-out);
+  }
+
+  .header__menu-button:active {
+    transform: scale(0.94);
+  }
+
+  .header__menu-button path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+
+  @media (min-width: 64em) {
+    .header__nav {
+      display: block;
+    }
+
+    .header__menu-button {
+      display: none;
+    }
+  }
+
+  /* ---------- Full-screen menu (phones and tablets) ---------- */
+  .menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: var(--ground);
+    color: var(--text);
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--t-ui) var(--ease-out),
+      transform var(--t-ui) var(--ease-out),
+      overlay var(--t-ui) allow-discrete,
+      display var(--t-ui) allow-discrete;
+  }
+
+  .menu:not([open]) {
+    opacity: 0;
+  }
+
+  @starting-style {
+    .menu[open] {
+      opacity: 0;
+    }
+  }
+
+  .menu::backdrop {
+    background: var(--ground);
+  }
+
+  .menu__inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding-bottom: var(--space-7);
+  }
+
+  .menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+  }
+
+  .menu__list {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-7);
+  }
+
+  .menu__link {
+    display: inline-block;
+    padding-block: var(--space-1);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 9vw, 3.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .menu__link[aria-current='page'] {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+
+  .menu__foot {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    margin-top: auto;
+    padding-top: var(--space-8);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .menu__list li {
+      transition:
+        opacity 500ms var(--ease-out),
+        transform 500ms var(--ease-out);
+      transition-delay: calc(60ms + var(--i) * 50ms);
+    }
+
+    @starting-style {
+      .menu[open] .menu__list li {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0);
+      }
+    }
+  }
+</style>

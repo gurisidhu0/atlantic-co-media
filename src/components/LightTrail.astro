@@ -1,0 +1,101 @@
+---
+// Section divider: the logo's wave line, drawn in gold with a bright head as it scrolls into view.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const wave =
+  'M0 22 C 120 22 200 13 320 15 S 520 29 640 25 S 800 6 900 12 S 1060 31 1200 23 S 1370 17 1440 20';
+---
+
+<div class:list={['trail', className]} data-trail aria-hidden="true">
+  <svg class="trail__layer trail__base" viewBox="0 0 1440 40" preserveAspectRatio="none" focusable="false">
+    <path d={wave} />
+  </svg>
+  <svg class="trail__layer trail__line" viewBox="0 0 1440 40" preserveAspectRatio="none" focusable="false">
+    <path d={wave} />
+  </svg>
+  <svg class="trail__layer trail__spark" viewBox="0 0 1440 40" preserveAspectRatio="none" focusable="false">
+    <path d={wave} />
+  </svg>
+</div>
+
+<style>
+  .trail {
+    position: relative;
+    height: clamp(1.5rem, 2.8vw, 2.5rem);
+    width: 100%;
+  }
+
+  .trail__layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .trail path {
+    fill: none;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .trail__base path {
+    stroke: var(--hairline);
+    stroke-width: 1px;
+  }
+
+  .trail__line path {
+    stroke: var(--gold);
+    stroke-width: 1.25px;
+  }
+
+  .trail__spark {
+    opacity: 0;
+    filter: drop-shadow(0 0 3px rgb(227 194 122 / 0.9)) drop-shadow(0 0 10px rgb(201 162 74 / 0.6)); /* taste-skill-ignore: Midnight Gold brief pins gold hairlines, ocean glows and the trail glow */
+  }
+
+  .trail__spark path {
+    stroke: var(--gold-light);
+    stroke-width: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .trail__line {
+      clip-path: inset(0 100% 0 0);
+    }
+
+    :global(.js) .trail.is-in .trail__line {
+      clip-path: inset(0 0 0 0);
+      transition: clip-path var(--t-trail) var(--ease-expo);
+    }
+
+    /* The bright head rides the front of the gold line (same curve and duration), then fades once it lands */
+    :global(.js) .trail.is-in .trail__spark {
+      animation:
+        spark-move var(--t-trail) var(--ease-expo) both,
+        spark-fade var(--t-trail) linear both;
+    }
+  }
+
+  @keyframes spark-move {
+    from {
+      clip-path: inset(-100% 100% -100% -14%);
+    }
+    to {
+      clip-path: inset(-100% 0 -100% 86%);
+    }
+  }
+
+  @keyframes spark-fade {
+    0%,
+    55% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

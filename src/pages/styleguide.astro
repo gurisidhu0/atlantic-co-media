@@ -1,0 +1,300 @@
+---
+// Internal style sample for reviewing the design system. Not linked from the site and not indexed.
+import Base from '../layouts/Base.astro';
+import LightTrail from '../components/LightTrail.astro';
+
+const colours = [
+  { name: 'Ground', token: '--ground', hex: '#0B0B0C', use: 'Page background' },
+  { name: 'Panel', token: '--panel', hex: '#151517', use: 'Menus, placeholders, form fields' },
+  { name: 'Gold', token: '--gold', hex: '#C9A24A', use: 'Buttons, hairlines, the light trail' },
+  { name: 'Light gold', token: '--gold-light', hex: '#E3C27A', use: 'The italic accent word, hover' },
+  { name: 'Ocean', token: '--ocean', hex: '#0F2A3A', use: 'Soft background glows only' },
+  { name: 'Heading', token: '--ink', hex: '#F2EEE4', use: 'Headings, key lines' },
+  { name: 'Body', token: '--text', hex: '#A8A397', use: 'Running text' },
+];
+
+const contrast = [
+  ['Heading on ground', '17.0 : 1'],
+  ['Body on ground', '7.8 : 1'],
+  ['Body on panel', '7.3 : 1'],
+  ['Light gold on ground', '11.5 : 1'],
+  ['Ground on gold (button text)', '8.2 : 1'],
+];
+---
+
+<Base
+  title="Style sample | Atlantic & Co. Media"
+  description="Internal design system sample for the Atlantic & Co. Media website."
+  noindex
+>
+  <section class="sg-hero glow" aria-labelledby="sg-hero-title">
+    <div class="frame">
+      <h1 id="sg-hero-title" class="sg-sentence t-display">
+        <span class="sg-sentence__words">Your business,</span>
+        <span class="sg-strip placeholder" role="img" aria-label="Placeholder: muted showreel loop">
+          <span class="placeholder__label"><strong>Showreel loop</strong>Placeholder, stage 2</span>
+        </span>
+        <span class="sg-sentence__words"><span class="accent">seen.</span></span>
+      </h1>
+      <p class="sg-hero__sub">
+        Reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New
+        Brunswick.
+      </p>
+      <div class="sg-hero__actions">
+        <a href="#" class="button">Message us</a>
+        <a href="#" class="button button--quiet">See our services</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="frame"><LightTrail /></div>
+
+  <section class="section frame" aria-labelledby="sg-colour">
+    <h2 id="sg-colour" class="t-title" data-reveal>The <span class="accent">palette</span></h2>
+    <ul role="list" class="sg-swatches">
+      {
+        colours.map((c, i) => (
+          <li data-reveal style={`--i:${i % 4}`}>
+            <span class="sg-swatch" style={`background:var(${c.token})`} />
+            <strong>{c.name}</strong>
+            <span class="t-small">
+              {c.hex} · {c.use}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <h3 class="t-lead sg-subhead">Contrast, measured</h3>
+    <dl class="sg-contrast t-small">
+      {
+        contrast.map(([k, v]) => (
+          <div>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="t-small">All pairs pass WCAG AA; most pass AAA (7 : 1).</p>
+  </section>
+
+  <div class="frame"><LightTrail /></div>
+
+  <section class="section frame" aria-labelledby="sg-type">
+    <h2 id="sg-type" class="t-title" data-reveal>Type with a <span class="accent">voice</span></h2>
+    <div class="sg-type">
+      <div data-reveal>
+        <p class="t-small">Display · Playfair Display 400 · 52–160px</p>
+        <p class="t-display sg-type__sample">Ready to be <span class="accent">seen?</span></p>
+      </div>
+      <div data-reveal>
+        <p class="t-small">Section title · Playfair Display 400 · 36–76px</p>
+        <p class="t-title sg-type__sample">Reels that stop the <span class="accent">scroll.</span></p>
+      </div>
+      <div data-reveal>
+        <p class="t-small">Statement · Playfair Display 400 · 22–34px</p>
+        <p class="t-lead">We make local businesses look the way they feel from the inside: proud, warm and worth the visit.</p>
+      </div>
+      <div data-reveal>
+        <p class="t-small">Body · Inter 400 · 17–19px, line height 1.6</p>
+        <p>
+          Most of your customers meet you on a phone before they meet you in person. A good reel, a set of honest
+          photos and a website that loads fast do the introducing for you. We plan it with you, shoot it on location in
+          Moncton, and hand back work that is ready to post. <a class="link" href="#">This is an inline link.</a>
+        </p>
+      </div>
+      <div data-reveal>
+        <p class="t-small">Small · Inter 400 · 14px · captions, labels and legal</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="frame"><LightTrail /></div>
+
+  <section class="section frame" aria-labelledby="sg-ui">
+    <h2 id="sg-ui" class="t-title" data-reveal>Buttons and <span class="accent">details</span></h2>
+    <div class="sg-row" data-reveal>
+      <a href="#" class="button">
+        Message us
+        <svg class="button__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+        </svg>
+      </a>
+      <a href="#" class="button button--quiet">See the work</a>
+      <a href="#" class="button button--small">Message us</a>
+    </div>
+    <p class="t-small sg-note">
+      Square-cut corners (2px), 48px tall for thumbs, gold fill for the one main action. Press any button: it gives
+      slightly under your finger. Tab with a keyboard to see the light-gold focus ring.
+    </p>
+
+    <h3 class="t-lead sg-subhead">Gold hairline</h3>
+    <hr class="hairline" /><!-- taste-skill-ignore: pinned gold hairline -->
+
+    <h3 class="t-lead sg-subhead">Light trail divider</h3>
+    <p class="t-small sg-note">
+      The wave from the logo. It draws in gold from left to right as it scrolls into view, with a bright head that fades
+      once it lands. With reduced motion it simply appears, already drawn.
+    </p>
+    <LightTrail />
+
+    <h3 class="t-lead sg-subhead">Placeholder tile</h3>
+    <div class="sg-tiles">
+      <div class="placeholder sg-tile sg-tile--reel" role="img" aria-label="Placeholder: vertical reel">
+        <span class="placeholder__label"><strong>Reel</strong>Placeholder until real work is added</span>
+      </div>
+      <div class="placeholder sg-tile sg-tile--photo" role="img" aria-label="Placeholder: photo">
+        <span class="placeholder__label"><strong>Photo</strong>Placeholder until real work is added</span>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sg-hero {
+    --glow-x: 70%;
+    --glow-y: 40%;
+    display: grid;
+    align-content: center;
+    min-height: calc(100svh - var(--header-height));
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  /* The hero sentence: the showreel sits inside it where a word would be */
+  .sg-sentence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.22em;
+  }
+
+  .sg-sentence__words {
+    white-space: nowrap;
+  }
+
+  .sg-strip {
+    flex: 1 1 100%;
+    aspect-ratio: 2 / 1;
+    margin-block: 0.12em 0.18em;
+  }
+
+  .sg-strip .placeholder__label {
+    letter-spacing: 0;
+    font-size: 1rem;
+  }
+
+  @media (min-width: 48em) {
+    /* Line one: "Your business,". Line two: the reel strip running into "seen." */
+    .sg-sentence > .sg-sentence__words:first-child {
+      flex-basis: 100%;
+    }
+
+    .sg-strip {
+      flex: 1 1 0;
+      aspect-ratio: auto;
+      height: 0.8em;
+      margin-block: 0.06em 0;
+    }
+  }
+
+  .sg-hero__sub {
+    margin-top: var(--space-6);
+    max-width: 44ch;
+    font-size: var(--step-body);
+  }
+
+  .sg-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .sg-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    gap: var(--space-6) var(--space-5);
+    margin-top: var(--space-7);
+  }
+
+  .sg-swatches li {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .sg-swatch {
+    display: block;
+    aspect-ratio: 4 / 3;
+    margin-bottom: var(--space-2);
+    border-radius: var(--radius);
+    box-shadow: inset 0 0 0 1px var(--hairline-soft); /* taste-skill-ignore: Midnight Gold brief pins gold hairlines, ocean glows and the trail glow */
+  }
+
+  .sg-subhead {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-4);
+  }
+
+  .sg-contrast {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 30rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .sg-contrast div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: var(--space-2);
+    box-shadow: 0 1px 0 var(--hairline-soft); /* taste-skill-ignore: Midnight Gold brief pins gold hairlines, ocean glows and the trail glow */
+  }
+
+  .sg-contrast dd {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sg-type {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-7);
+  }
+
+  .sg-type .t-small {
+    margin-bottom: var(--space-3);
+  }
+
+  .sg-type__sample {
+    color: var(--ink);
+    font-family: var(--font-display);
+  }
+
+  .sg-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+  }
+
+  .sg-note {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .sg-tiles {
+    display: grid;
+    grid-template-columns: 9fr 16fr;
+    gap: var(--space-4);
+    max-width: 48rem;
+  }
+
+  .sg-tile--reel {
+    aspect-ratio: 9 / 16;
+  }
+
+  .sg-tile--photo {
+    aspect-ratio: 4 / 5;
+    align-self: end;
+  }
+</style>

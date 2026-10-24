@@ -1,0 +1,27 @@
+---
+// Temporary holding page. The full Home page is built in Stage 2.
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Atlantic & Co. Media | Reels, photo, video and websites in Moncton"
+  description="Reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New Brunswick."
+>
+  <section class="holding frame glow" aria-labelledby="holding-title">
+    <h1 id="holding-title" class="t-display">Your business, <span class="accent">seen.</span></h1>
+    <p>
+      Reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New Brunswick.
+      The full site is on its way.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .holding {
+    display: grid;
+    align-content: center;
+    gap: var(--space-6);
+    min-height: calc(100svh - var(--header-height));
+    padding-block: var(--space-9);
+  }
+</style>
