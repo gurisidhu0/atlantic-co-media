@@ -2,11 +2,18 @@
 import Wordmark from './Wordmark.astro';
 import { business, nav, messageUs } from '../data/site';
 
+interface Props {
+  // Home ends with its own call to action, so it hides the footer invitation.
+  invite?: boolean;
+}
+
+const { invite = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer">
+<footer class:list={['footer', { 'footer--no-invite': !invite }]}>
   <div class="frame footer__grid">
+    {invite && (
     <div class="footer__invite">
       <h2 class="t-title" data-reveal>Put your business <span class="accent">on screen.</span></h2>
       <a href={messageUs.href} class="button" data-reveal style="--i:1">
@@ -16,6 +23,7 @@ const year = new Date().getFullYear();
         </svg>
       </a>
     </div>
+    )}
 
     <div class="footer__brand">
       <Wordmark size="footer" />
@@ -68,7 +76,10 @@ const year = new Date().getFullYear();
     position: relative;
     overflow: hidden;
     padding-top: var(--section-gap);
-    background: var(--ground);
+  }
+
+  .footer--no-invite {
+    padding-top: var(--space-9);
   }
 
   .footer__grid {

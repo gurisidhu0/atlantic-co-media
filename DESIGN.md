@@ -41,6 +41,42 @@ typography:
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: "0em"
+  ui:
+    fontFamily: "Inter Variable, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.2
+    letterSpacing: "0em"
+  menu-link:
+    fontFamily: "Playfair Display Variable, Georgia, serif"
+    fontSize: "clamp(2.25rem, 9vw, 3.5rem)"
+    fontWeight: 400
+    lineHeight: 1.15
+    letterSpacing: "-0.02em"
+  wordmark-name:
+    fontFamily: "Playfair Display Variable, Georgia, serif"
+    fontSize: "1.125rem"
+    fontWeight: 400
+    lineHeight: 1
+    letterSpacing: "-0.005em"
+  wordmark-name-large:
+    fontFamily: "Playfair Display Variable, Georgia, serif"
+    fontSize: "1.75rem"
+    fontWeight: 400
+    lineHeight: 1
+    letterSpacing: "-0.005em"
+  wordmark-sub:
+    fontFamily: "Inter Variable, system-ui, sans-serif"
+    fontSize: "0.5625rem"
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: "0.42em"
+  wordmark-sub-large:
+    fontFamily: "Inter Variable, system-ui, sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: "0.42em"
 rounded:
   base: "2px"
 spacing:
@@ -141,6 +177,8 @@ All pairs pass AA; most pass AAA.
 | Body | `.t-body` | 17 → 19px, line height 1.6 | Running text, max 62 characters per line |
 | Small | `.t-small` | 14px | Captions, labels, legal |
 
+Interface sizes outside the five steps: buttons and desktop menu links 16px (`ui`), phone menu links 36–56px (`menu-link`), and the wordmark lockup (18px / 28px name, 9px / 12px "MEDIA"), which reproduces the logo.
+
 Display tracking -0.025em, titles -0.02em. Headlines are no longer than two lines at any width. The logo's spaced capitals "MEDIA" are part of the wordmark only; nowhere else uses small spaced capitals.
 
 ## Layout
@@ -184,6 +222,13 @@ Square-cut. Every button, frame, tile and panel uses a 2px radius. No pills, no 
 ### Signature: Light trail (`LightTrail.astro`)
 
 The wave line from the logo, full width. A faint gold base line is always there. When the divider scrolls into view, a gold line draws across it from left to right over 1.8s, with a bright light-gold head riding its front edge; the head fades once it lands. Reduced motion: shown fully drawn, no travel.
+
+### Hero reel (`HeroReel.astro`)
+
+The media strip inside the hero sentence. Phone: a 2:1 strip between "Your business," and "seen.". Tablet and desktop: a letterbox strip 0.8em tall on line two, running into "seen.". It opens like a shutter on load (1.2s), with the picture settling from 1.12 scale.
+
+- With a video: `<HeroReel video="/media/showreel.mp4" poster="/media/showreel.jpg" />`. Muted, looping, plays inline, pauses off screen, never autoplays under reduced motion.
+- Without one (now): a title card of the logo's gold wave lines drifting slowly over ocean light, labelled "Showreel coming soon". It is a placeholder, not footage.
 
 ### Footer
 

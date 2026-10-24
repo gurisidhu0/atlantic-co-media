@@ -1,0 +1,146 @@
+---
+// The media strip inside the hero sentence.
+// With a video: a muted, looping showreel with a poster frame.
+// Without one (for now): a moving gold-wave title card from the logo, clearly labelled as a placeholder.
+interface Props {
+  video?: string;
+  poster?: string;
+  class?: string;
+}
+
+const { video, poster, class: className } = Astro.props;
+
+// Wave lines that repeat every 600 units, so a strip twice as wide can loop seamlessly.
+const period = 600;
+const waves = [
+  { y: 112, a: 10, phase: 0, o: 0.9, w: 1.4 },
+  { y: 124, a: 12, phase: 120, o: 0.55, w: 1 },
+  { y: 136, a: 9, phase: 260, o: 0.4, w: 1 },
+  { y: 148, a: 13, phase: 380, o: 0.3, w: 1 },
+  { y: 160, a: 8, phase: 500, o: 0.22, w: 1 },
+  { y: 96, a: 7, phase: 200, o: 0.25, w: 1 },
+];
+const wavePath = (y: number, a: number, phase: number) => {
+  const start = -period + (phase % period);
+  let d = `M${start} ${y} Q${start + period / 4} ${y - a} ${start + period / 2} ${y}`;
+  for (let x = start + period; x <= 2400 + period; x += period / 2) d += ` T${x} ${y}`;
+  return d;
+};
+---
+
+<span class:list={['reel', className]} data-reel aria-hidden="true">
+  {
+    video ? (
+      <video class="reel__video" src={video} poster={poster} muted loop playsinline autoplay preload="metadata" />
+    ) : (
+      <>
+        <span class="reel__card">
+          <svg class="reel__waves" viewBox="0 0 2400 200" preserveAspectRatio="none" focusable="false">
+            {waves.map((w) => (
+              <path d={wavePath(w.y, w.a, w.phase)} style={`opacity:${w.o};stroke-width:${w.w}px`} />
+            ))}
+          </svg>
+        </span>
+        <span class="reel__label">Showreel coming soon</span>
+      </>
+    )
+  }
+</span>
+
+<style>
+  .reel {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--panel);
+    isolation: isolate;
+  }
+
+  .reel__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Title card: ocean light from below, the logo's waves drifting through it */
+  .reel__card {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(70% 120% at 30% 120%, rgb(15 42 58 / 0.95), transparent 70%), /* taste-skill-ignore: brief pins ocean glows */
+      var(--panel);
+  }
+
+  .reel__waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    max-width: none;
+    height: 100%;
+  }
+
+  .reel__waves path {
+    fill: none;
+    stroke: var(--gold);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .reel__label {
+    position: absolute;
+    left: 0.875rem;
+    bottom: 0.625rem;
+    font-family: var(--font-text);
+    font-size: var(--step-small);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0;
+    color: var(--text);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reel__waves {
+      animation: reel-drift 24s linear infinite;
+    }
+
+    .reel[data-paused] .reel__waves {
+      animation-play-state: paused;
+    }
+
+    /* Signature move: the strip opens like a shutter on load while its picture settles */
+    .reel {
+      animation: reel-shutter var(--t-open) var(--ease-in-out) 200ms both;
+    }
+
+    .reel__card,
+    .reel__video {
+      animation: reel-settle 1600ms var(--ease-soft) 200ms both;
+    }
+  }
+
+  @keyframes reel-drift {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes reel-shutter {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes reel-settle {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: none;
+    }
+  }
+</style>

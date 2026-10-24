@@ -1,27 +1,549 @@
 ---
-// Temporary holding page. The full Home page is built in Stage 2.
 import Base from '../layouts/Base.astro';
+import HeroReel from '../components/HeroReel.astro';
+import LightTrail from '../components/LightTrail.astro';
+import { services } from '../data/services';
+import { messageUs } from '../data/site';
+
+// Placeholder tiles until real work exists. Never replace these with stock presented as client work.
+const work = [
+  { kind: 'Website', ratio: '3 / 2', cls: 'work__tile--wide' },
+  { kind: 'Photo', ratio: '4 / 5', cls: 'work__tile--right' },
+  { kind: 'Reel', ratio: '9 / 16', cls: 'work__tile--middle' },
+];
+
+const steps = [
+  {
+    line: 'First, we chat.',
+    text: 'Tell us about your business, who you want to reach and what you need. A message on Instagram is enough to start.',
+  },
+  {
+    line: 'Then we plan and shoot.',
+    text: 'We map out the shots, posts or pages with you, then come to you in Moncton to capture them.',
+  },
+  {
+    line: 'We edit and',
+    accent: 'launch.',
+    text: 'You get finished work that is ready to post or go live, and a clear idea of what comes next.',
+  },
+];
 ---
 
 <Base
   title="Atlantic & Co. Media | Reels, photo, video and websites in Moncton"
-  description="Reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New Brunswick."
+  description="Promotional reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New Brunswick. Message us to get started."
+  footerInvite={false}
 >
-  <section class="holding frame glow" aria-labelledby="holding-title">
-    <h1 id="holding-title" class="t-display">Your business, <span class="accent">seen.</span></h1>
-    <p>
-      Reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New Brunswick.
-      The full site is on its way.
+  <!-- Hero: the showreel sits inside the sentence where a word would be -->
+  <section class="hero glow" aria-labelledby="hero-title">
+    <div class="frame">
+      <h1 id="hero-title" class="hero__sentence t-display">
+        <span class="hero__words">Your business,</span>
+        <HeroReel class="hero__reel" />
+        <span class="hero__words"><span class="accent">seen.</span></span>
+      </h1>
+      <p class="hero__sub">
+        Reels, photo and video shoots, social media strategy and websites for small businesses in Moncton, New
+        Brunswick.
+      </p>
+      <div class="hero__actions">
+        <a href={messageUs.href} class="button">
+          {messageUs.label}
+          <svg class="button__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </a>
+        <a href="/services/" class="button button--quiet">Our services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro statement -->
+  <section class="intro frame" aria-label="Who we are">
+    <p class="intro__statement t-lead" data-reveal>
+      People meet your business on their phone before they walk through the door. We make that first look
+      <span class="accent">count.</span>
     </p>
+    <p class="intro__more" data-reveal style="--i:1">
+      <a class="link" href="/about/">Why we started Atlantic &amp; Co.</a>
+    </p>
+  </section>
+
+  <!-- Services preview: rows on one axis, each with a frame in its own format -->
+  <section class="services frame" aria-labelledby="services-title">
+    <div class="services__head">
+      <h2 id="services-title" class="t-title" data-reveal>What we <span class="accent">make</span></h2>
+      <p data-reveal style="--i:1">Four ways to help a local business get noticed. Pick one, or put them together.</p>
+    </div>
+    <ul role="list" class="services__list">
+      {
+        services.map((s, i) => (
+          <li class="service" data-reveal>
+            <div class="service__text">
+              <h3 class="t-lead">{s.title}</h3>
+              <p>{s.short}</p>
+              <a class="link service__link" href={`/services/#${s.slug}`}>
+                More about {s.title.toLowerCase()}
+              </a>
+            </div>
+            <div
+              class:list={['placeholder', 'service__frame', `service__frame--${i}`]}
+              style={`aspect-ratio:${s.frame.ratio}`}
+              role="img"
+              aria-label={`Placeholder for a ${s.frame.label.toLowerCase()} example`}
+            >
+              <span class="placeholder__label">
+                <strong>{s.frame.label}</strong>Example coming soon
+              </span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <div class="frame"><LightTrail /></div>
+
+  <!-- Featured work: staggered tiles with deliberate empty cells -->
+  <section class="work frame" aria-labelledby="work-title">
+    <div class="work__grid">
+      <div class="work__head">
+        <h2 id="work-title" class="t-title" data-reveal>Featured <span class="accent">work</span></h2>
+        <p class="t-small" data-reveal style="--i:1">
+          Real projects will appear here as they are finished.
+        </p>
+      </div>
+      {
+        work.map((w, i) => (
+          <figure class:list={['work__tile', w.cls]} data-reveal style={`--i:${i}`}>
+            <div
+              class="placeholder work__media"
+              style={`aspect-ratio:${w.ratio}`}
+              role="img"
+              aria-label={`Placeholder for a ${w.kind.toLowerCase()} project`}
+            >
+              <span class="placeholder__label">
+                <strong>{w.kind}</strong>Placeholder until real work is added
+              </span>
+            </div>
+            <figcaption class="work__caption t-small">
+              <span>{w.kind}</span>
+              <span>Coming soon</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+      <div class="work__all" data-reveal>
+        <p class="t-lead">Want your business to be one of the first?</p>
+        <p class="work__links">
+          <a class="link" href={messageUs.href}>{messageUs.label}</a>
+          <a class="link" href="/work/">See all work</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works: the sequence written as a staircase of lines -->
+  <section class="steps frame" aria-labelledby="steps-title">
+    <h2 id="steps-title" class="visually-hidden">How it works</h2>
+    <ol role="list" class="steps__list">
+      {
+        steps.map((s, i) => (
+          <li class="step" style={`--step:${i}`} data-reveal>
+            <p class="step__line t-title">
+              {s.line}
+              {s.accent && (
+                <>
+                  {' '}
+                  <span class="accent">{s.accent}</span>
+                </>
+              )}
+            </p>
+            <p class="step__text">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="steps__more" data-reveal>
+      <a class="link" href="/process/">More about how we work</a>
+    </p>
+  </section>
+
+  <div class="frame"><LightTrail /></div>
+
+  <!-- Final call to action: the opening idea returns -->
+  <section class="cta glow" aria-labelledby="cta-title">
+    <div class="frame cta__inner">
+      <p class="t-lead cta__lead" data-reveal>Something new is coming to Moncton.</p>
+      <h2 id="cta-title" class="cta__title t-display" data-reveal style="--i:1">
+        Ready to be <span class="accent">seen?</span>
+      </h2>
+      <div class="cta__foot" data-reveal style="--i:2">
+        <p>Send us a message. Tell us about your business and we will take it from there.</p>
+        <a href={messageUs.href} class="button">
+          {messageUs.label}
+          <svg class="button__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
   </section>
 </Base>
 
 <style>
-  .holding {
+  /* ---------- Hero ---------- */
+  .hero {
+    --glow-x: 72%;
+    --glow-y: 45%;
     display: grid;
     align-content: center;
-    gap: var(--space-6);
     min-height: calc(100svh - var(--header-height));
-    padding-block: var(--space-9);
+    padding-block: var(--space-6) var(--space-8);
+  }
+
+  .hero__sentence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.22em;
+  }
+
+  .hero__words {
+    white-space: nowrap;
+  }
+
+  .hero__sentence :global(.hero__reel) {
+    flex: 1 1 100%;
+    aspect-ratio: 2 / 1;
+    margin-block: 0.12em 0.18em;
+  }
+
+  .hero__sub {
+    margin-top: var(--space-6);
+    max-width: 44ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 48em) {
+    /* Line one: "Your business,". Line two: the reel strip running into "seen." */
+    .hero__sentence > .hero__words:first-child {
+      flex-basis: 100%;
+    }
+
+    .hero__sentence :global(.hero__reel) {
+      flex: 1 1 0;
+      aspect-ratio: auto;
+      height: 0.8em;
+      margin-block: 0.06em 0;
+    }
+  }
+
+  /* ---------- Intro statement ---------- */
+  .intro {
+    padding-block: var(--section-gap);
+  }
+
+  .intro__statement {
+    max-width: 30ch;
+  }
+
+  @media (min-width: 64em) {
+    .intro__statement {
+      max-width: 40ch;
+    }
+  }
+
+  .intro__more {
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 48em) {
+    .intro {
+      display: grid;
+      justify-items: center;
+      text-align: center;
+    }
+  }
+
+  /* ---------- Services ---------- */
+  .services {
+    display: grid;
+    gap: var(--space-8);
+    padding-bottom: var(--section-gap);
+  }
+
+  .services__head {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+
+  .services__head p {
+    max-width: 34ch;
+  }
+
+  .services__list {
+    display: grid;
+    gap: var(--space-9);
+  }
+
+  .service {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .service__text {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+  }
+
+  .service__text p {
+    max-width: 38ch;
+  }
+
+  .service__link {
+    margin-top: var(--space-1);
+    padding-block: var(--space-2);
+  }
+
+  /* Frames at deliberately unequal sizes, alternating sides on a phone */
+  .service__frame {
+    width: 100%;
+  }
+
+  .service__frame--0 {
+    width: 36%;
+  }
+
+  .service__frame--1 {
+    width: 78%;
+    justify-self: end;
+  }
+
+  .service__frame--2 {
+    width: 48%;
+  }
+
+  .service__frame--3 {
+    width: 72%;
+    justify-self: end;
+  }
+
+  @media (min-width: 64em) {
+    .services {
+      grid-template-columns: 4fr 8fr;
+      gap: var(--space-6);
+    }
+
+    .services__head {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-7));
+    }
+
+    .service {
+      grid-template-columns: 5fr 3fr;
+      align-items: start;
+      gap: var(--space-7);
+    }
+
+    .service__frame {
+      justify-self: end;
+    }
+
+    .service__frame--0 {
+      width: 60%;
+    }
+
+    .service__frame--1 {
+      width: 100%;
+    }
+
+    .service__frame--2 {
+      width: 75%;
+    }
+
+    .service__frame--3 {
+      width: 100%;
+    }
+  }
+
+  /* ---------- Featured work ---------- */
+  .work {
+    padding-block: var(--section-gap);
+  }
+
+  .work__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-7) 0.625rem;
+    align-items: start;
+  }
+
+  .work__head {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .work__tile {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .work__tile--wide {
+    grid-column: 1 / -1;
+  }
+
+  .work__tile--right {
+    grid-column: 2;
+  }
+
+  .work__tile--middle {
+    grid-column: 1;
+  }
+
+  .work__caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-3);
+  }
+
+  .work__caption span:first-child {
+    color: var(--ink);
+  }
+
+  .work__all {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .work__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+  }
+
+  .work__links .link {
+    padding-block: var(--space-2);
+  }
+
+  @media (min-width: 48em) {
+    .work__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-8) var(--space-4);
+    }
+
+    .work__tile--wide {
+      grid-column: 1 / 3;
+      grid-row: 1;
+    }
+
+    .work__head {
+      grid-column: 3;
+      grid-row: 1;
+      align-self: end;
+    }
+
+    .work__tile--right {
+      grid-column: 4;
+      grid-row: 1;
+    }
+
+    .work__tile--middle {
+      grid-column: 2;
+      grid-row: 2 / span 2;
+    }
+
+    .work__all {
+      grid-column: 3 / -1;
+      grid-row: 2;
+      align-self: center;
+      max-width: 22ch;
+    }
+  }
+
+  /* ---------- How it works: a descending staircase of lines ---------- */
+  .steps {
+    padding-block: var(--section-gap);
+  }
+
+  .steps__list {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .step {
+    display: grid;
+    gap: var(--space-3);
+    padding-left: calc(var(--step) * 6vw);
+  }
+
+  .step__line {
+    max-width: none;
+    color: var(--ink);
+    font-family: var(--font-display);
+  }
+
+  .step__text {
+    max-width: 34ch;
+  }
+
+  .steps__more {
+    margin-top: var(--space-7);
+    padding-left: 12vw;
+  }
+
+  @media (min-width: 48em) {
+    .steps__list {
+      gap: var(--space-8);
+    }
+
+    .step {
+      padding-left: calc(var(--step) * 16.66%);
+    }
+
+    .steps__more {
+      padding-left: 33.33%;
+    }
+  }
+
+  /* ---------- Final call to action ---------- */
+  .cta {
+    --glow-x: 25%;
+    --glow-y: 60%;
+    padding-block: var(--section-gap);
+  }
+
+  .cta__inner {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .cta__foot {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    margin-top: var(--space-7);
+  }
+
+  .cta__foot p {
+    max-width: 34ch;
+  }
+
+  @media (min-width: 48em) {
+    .cta__foot {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
   }
 </style>

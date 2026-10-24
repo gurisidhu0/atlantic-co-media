@@ -17,6 +17,6 @@ STORY: In five seconds the visitor knows what the studio makes and that it is in
 
 FIRST VIEWPORT: Phone: "Your business," / full-width 2:1 reel strip / "seen." in italic gold, sub-line, Message us button, all above the fold. Desktop: line one "Your business,", line two a cinematic letterbox reel strip running into "seen."; sub-line and actions bottom-left.
 
-FORM: Taste "sentence-as-layout" (first of three dealt), with brand palette and type kept. seed: none (direction pinned by brief; Taste draw seed 1061624407)
+FORM: Taste "sentence-as-layout" (first of three dealt), with brand palette and type kept. Redraws: work → staggered tiles with empty cells (no client names exist to list); how-it-works → lines that step across (no photographs for full-bleed panels). CTA kept on the ground with an ocean glow rather than inverted, because gold or cream as a full field breaks the brand's gold-as-light rule. seed: none (direction pinned by brief; Taste draw seed 1061624407)
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

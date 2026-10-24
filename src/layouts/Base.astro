@@ -12,9 +12,10 @@ interface Props {
   description: string;
   image?: string;
   noindex?: boolean;
+  footerInvite?: boolean;
 }
 
-const { title, description, image = '/og-default.jpg', noindex = false } = Astro.props;
+const { title, description, image = '/og-default.jpg', noindex = false, footerInvite = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
@@ -53,7 +54,7 @@ const ogImage = new URL(image, Astro.site);
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer invite={footerInvite} />
     <div class="grain" aria-hidden="true"></div>
     <script>
       import '../scripts/site';

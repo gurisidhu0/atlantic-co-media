@@ -52,3 +52,17 @@ if (menu && openButton) {
   // Links inside the menu close it so in-page anchors land correctly.
   menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => menu.close()));
 }
+
+// Hero reel: pause the loop while it is off screen; never autoplay video when motion is reduced.
+document.querySelectorAll<HTMLElement>('[data-reel]').forEach((reel) => {
+  const video = reel.querySelector('video');
+  if (video && reduceMotion.matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+    return;
+  }
+  new IntersectionObserver(([entry]) => {
+    reel.toggleAttribute('data-paused', !entry.isIntersecting);
+    if (video) entry.isIntersecting ? video.play().catch(() => {}) : video.pause();
+  }).observe(reel);
+});
